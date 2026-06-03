@@ -122,6 +122,7 @@ def calculate():
                 #Total Host
             bit = 32 - cidr
             if cidr == 32:
+                hosts = 0
                 pass
             else:
                 hosts = 1
