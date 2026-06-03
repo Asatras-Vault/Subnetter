@@ -10,4 +10,5 @@ Thank you, have fun!
 Developed by Riccardo Milani
 
 
-<img width="820" height="469" alt="immagine" src="https://github.com/user-attachments/assets/a9bb139a-5d17-4654-9b16-28117b459a12" />
+<img width="1008" height="799" alt="immagine" src="https://github.com/user-attachments/assets/3df8c0f6-2151-4810-bda7-85bf54c18465" />
+
