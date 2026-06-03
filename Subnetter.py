@@ -27,7 +27,7 @@ def calculate():
         if oct1 > 255 or oct1 < 0 or oct2 > 255 or oct2 < 0 or oct3 > 255 or oct3 < 0 or oct4 > 255 or oct4 < 0 or cidr > 32 or cidr <= 0:
             error()
         else:
-            net_id = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12))
+            net_id = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12), width = 20)
             net_id.place(relx=0.5, rely=0.5, anchor=E)
 
             #Subnet Mask
@@ -68,7 +68,7 @@ def calculate():
                 for b in range(8 - cidr):
                     sub1 *= 2
                 sub1 = 256 - sub1
-            subnets = Label(root, text=(sub1, ".", sub2, ".", sub3, ".", sub4), font=("TkDefaultFont", 12))
+            subnets = Label(root, text=(sub1, ".", sub2, ".", sub3, ".", sub4), font=("TkDefaultFont", 12), width=20)
             subnets.place(relx=0.5, rely=0.6, anchor=E)
 
             #First Host
@@ -76,7 +76,7 @@ def calculate():
                 first_host = oct4+1
             else:
                 first_host = oct4
-            first = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", first_host), font=("TkDefaultFont", 12))
+            first = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", first_host), font=("TkDefaultFont", 12), width = 20)
             first.place(relx=0.5, rely=0.7, anchor=E)
 
             #last host
@@ -116,17 +116,20 @@ def calculate():
                 oct1 += ips - 1
                 if oct1 > 255:
                     error()
-            last = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12))
+            last = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12), width=20)
             last.place(relx=0.5, rely=0.8, anchor=E)
 
                 #Total Host
             bit = 32 - cidr
-            hosts = 1
-            for i in range(bit):
-                hosts *= 2
-            hosts -= 2
+            if cidr == 32:
+                pass
+            else:
+                hosts = 1
+                for i in range(bit):
+                    hosts *= 2
+                hosts -= 2
 
-            total_hosts = Label(root, text=hosts, font=("TkDefaultFont", 12))
+            total_hosts = Label(root, text=hosts, font=("TkDefaultFont", 12), width=10)
             total_hosts.place(relx=0.8, rely=0.5, anchor=E)
 
             #Broadcast
@@ -134,7 +137,7 @@ def calculate():
                 broad = oct4
             else:
                 broad = oct4+1
-            broad = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", broad), font=("TkDefaultFont", 12))
+            broad = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", broad), font=("TkDefaultFont", 12), width=20)
             broad.place(relx=0.5, rely=0.9, anchor=E)
 
     except ValueError, TypeError:
@@ -192,7 +195,7 @@ first.place(relx=0.1, rely=0.7, anchor=W)
 #
 last.place(relx=0.1, rely=0.8, anchor=W)
 #
-n_hosts.place(relx=0.6, rely=0.5, anchor=W)
+n_hosts.place(relx=0.5, rely=0.5, anchor=W)
 #
 broadcast.place(relx=0.1, rely=0.9, anchor=W)
 
