@@ -6,9 +6,21 @@ root = Tk()
 root.title("Subnetter")
 root.minsize(800,600)
 
-
 #Functions
 def calculate():
+    net_id.configure(state='normal')
+    subnets.configure(state='normal')
+    firstip.configure(state='normal')
+    lastip.configure(state='normal')
+    total_hosts.configure(state='normal')
+    broadc.configure(state='normal')
+
+    net_id.delete(0, END)
+    subnets.delete(0, END)
+    firstip.delete(0, END)
+    lastip.delete(0, END)
+    total_hosts.delete(0,END)
+    broadc.delete(0, END)
 
     oct1 = ip1.get()
     oct2 = ip2.get()
@@ -22,13 +34,11 @@ def calculate():
         oct4 = int(oct4)
         cidr = int(cidr)
 
-
         #Network ID, code doesn't check if ip is a host or not
         if oct1 > 255 or oct1 < 0 or oct2 > 255 or oct2 < 0 or oct3 > 255 or oct3 < 0 or oct4 > 255 or oct4 < 0 or cidr > 32 or cidr <= 0:
             error()
         else:
-            net_id = Label(result_calc, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12), width = 20)
-            net_id.grid(row=0, column=0)
+            net_id.insert(0, (oct1, ".", oct2, ".", oct3, ".", oct4))
 
             #Subnet Mask
             if cidr == 32:
@@ -68,16 +78,14 @@ def calculate():
                 for b in range(8 - cidr):
                     sub1 *= 2
                 sub1 = 256 - sub1
-            subnets = Label(result_calc, text=(sub1, ".", sub2, ".", sub3, ".", sub4), font=("TkDefaultFont", 12), width=20)
-            subnets.grid(row=1, column=0)
+            subnets.insert(0, (sub1, ".", sub2, ".", sub3, ".", sub4))
 
             #First Host
             if cidr != 32:
                 first_host = oct4+1
             else:
                 first_host = oct4
-            first = Label(result_calc, text=(oct1, ".", oct2, ".", oct3, ".", first_host), font=("TkDefaultFont", 12), width = 20)
-            first.grid(row=2, column=0)
+            firstip.insert(0, (oct1, ".", oct2, ".", oct3, ".", first_host))
 
             #last host
             ips = 1
@@ -89,7 +97,6 @@ def calculate():
                 oct4 += ips -2
                 if oct4 > 255:
                     error()
-
             elif cidr >= 16 and cidr < 24:
                 for b in range(24 - cidr):
                     ips *= 2
@@ -97,7 +104,6 @@ def calculate():
                 oct3 += ips -1
                 if oct3 > 255:
                     error()
-
             elif cidr >= 8 and cidr < 16:
                 for b in range(16 - cidr):
                     ips *= 2
@@ -106,7 +112,6 @@ def calculate():
                 oct2 += ips -1
                 if oct2 > 255:
                     error()
-
             elif cidr <= 8:
                 for b in range(8 - cidr):
                     ips *= 2
@@ -116,8 +121,7 @@ def calculate():
                 oct1 += ips - 1
                 if oct1 > 255:
                     error()
-            last = Label(result_calc, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12), width=20)
-            last.grid(row=3, column=0)
+            lastip.insert(0, (oct1, ".", oct2, ".", oct3, ".", oct4))
 
                 #Total Host
             bit = 32 - cidr
@@ -130,19 +134,23 @@ def calculate():
                     hosts *= 2
                 hosts -= 2
 
-            total_hosts = Label(result_calc, text=hosts, font=("TkDefaultFont", 12), width=10)
-            total_hosts.grid(row=4, column=0)
+            total_hosts.insert(0, hosts)
 
             #Broadcast
             if cidr == 32:
                 broad = oct4
             else:
                 broad = oct4+1
-            broad = Label(result_calc, text=(oct1, ".", oct2, ".", oct3, ".", broad), font=("TkDefaultFont", 12), width=20)
-            broad.grid(row=5, column=0)
+            broadc.insert(0, (oct1, ".", oct2, ".", oct3, ".", broad))
 
     except (ValueError, TypeError):
         error()
+    net_id.configure(state='disabled', disabledforeground="black")
+    subnets.configure(state='disabled', disabledforeground="black")
+    firstip.configure(state='disabled', disabledforeground="black")
+    lastip.configure(state='disabled', disabledforeground="black")
+    total_hosts.configure(state='disabled', disabledforeground="black")
+    broadc.configure(state='disabled', disabledforeground="black")
 
 def error():
     warning = messagebox.showerror("ERROR", "NOT A VALID IP ADDRESS/CIDR")
@@ -167,8 +175,20 @@ first = Label(result_id, text="First Host: ", font=("TkDefaultFont", 12))
 last = Label(result_id, text="Last Host: ", font=("TkDefaultFont", 12))
 n_hosts = Label(result_id, text="Total Hosts: ", font=("TkDefaultFont", 12))
 broadcast = Label(result_id, text="Broadcast IP: ", font=("TkDefaultFont", 12))
-result_calc = Frame(result_frame)
 
+net_id = Entry(result_id, font=("TkDefaultFont", 12))
+net_id.configure(state='disabled')
+subnets = Entry(result_id, font=("TkDefaultFont", 12))
+subnets.configure(state="disabled")
+firstip = Entry(result_id, font=("TkDefaultFont", 12))
+firstip.configure(state="disabled")
+lastip = Entry(result_id, font=("TkDefaultFont", 12))
+lastip.configure(state="disabled")
+total_hosts = Entry(result_id, font=("TkDefaultFont", 12))
+total_hosts.configure(state="disabled")
+broadc = Entry(result_id, font=("TkDefaultFont", 12))
+broadc.configure(state="disabled")
+#
 developer = Label(root, font=("TkDefaultFont", 10), fg="grey", text="Developed with Python\n by Riccardo Milani")
 #Buttons
 calculatebutton = Button(root, text="Calculate!", font=("TkDefaultFont", 12), width=45, padx=5, command=calculate)
@@ -207,7 +227,13 @@ first.grid(row=2, column=0)
 last.grid(row=3, column=0)
 n_hosts.grid(row=4, column=0)
 broadcast.grid(row=5, column=0)
-result_calc.grid(row=0, column=1)
+
+net_id.grid(row=0, column=1)
+subnets.grid(row=1, column=1)
+firstip.grid(row=2, column=1)
+lastip.grid(row=3, column=1)
+total_hosts.grid(row=4, column=1)
+broadc.grid(row=5, column=1)
 #
 developer.pack()
 
