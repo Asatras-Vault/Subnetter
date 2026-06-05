@@ -4,8 +4,8 @@ from tkinter import messagebox
 #Root Window
 root = Tk()
 root.title("Subnetter")
-root.minsize(800, 600)
-root.maxsize(800, 600)
+root.minsize(800,600)
+
 
 #Functions
 def calculate():
@@ -27,8 +27,8 @@ def calculate():
         if oct1 > 255 or oct1 < 0 or oct2 > 255 or oct2 < 0 or oct3 > 255 or oct3 < 0 or oct4 > 255 or oct4 < 0 or cidr > 32 or cidr <= 0:
             error()
         else:
-            net_id = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12), width = 20)
-            net_id.place(relx=0.5, rely=0.5, anchor=E)
+            net_id = Label(result_calc, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12), width = 20)
+            net_id.grid(row=0, column=0)
 
             #Subnet Mask
             if cidr == 32:
@@ -68,16 +68,16 @@ def calculate():
                 for b in range(8 - cidr):
                     sub1 *= 2
                 sub1 = 256 - sub1
-            subnets = Label(root, text=(sub1, ".", sub2, ".", sub3, ".", sub4), font=("TkDefaultFont", 12), width=20)
-            subnets.place(relx=0.5, rely=0.6, anchor=E)
+            subnets = Label(result_calc, text=(sub1, ".", sub2, ".", sub3, ".", sub4), font=("TkDefaultFont", 12), width=20)
+            subnets.grid(row=1, column=0)
 
             #First Host
             if cidr != 32:
                 first_host = oct4+1
             else:
                 first_host = oct4
-            first = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", first_host), font=("TkDefaultFont", 12), width = 20)
-            first.place(relx=0.5, rely=0.7, anchor=E)
+            first = Label(result_calc, text=(oct1, ".", oct2, ".", oct3, ".", first_host), font=("TkDefaultFont", 12), width = 20)
+            first.grid(row=2, column=0)
 
             #last host
             ips = 1
@@ -116,8 +116,8 @@ def calculate():
                 oct1 += ips - 1
                 if oct1 > 255:
                     error()
-            last = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12), width=20)
-            last.place(relx=0.5, rely=0.8, anchor=E)
+            last = Label(result_calc, text=(oct1, ".", oct2, ".", oct3, ".", oct4), font=("TkDefaultFont", 12), width=20)
+            last.grid(row=3, column=0)
 
                 #Total Host
             bit = 32 - cidr
@@ -130,77 +130,85 @@ def calculate():
                     hosts *= 2
                 hosts -= 2
 
-            total_hosts = Label(root, text=hosts, font=("TkDefaultFont", 12), width=10)
-            total_hosts.place(relx=0.8, rely=0.5, anchor=E)
+            total_hosts = Label(result_calc, text=hosts, font=("TkDefaultFont", 12), width=10)
+            total_hosts.grid(row=4, column=0)
 
             #Broadcast
             if cidr == 32:
                 broad = oct4
             else:
                 broad = oct4+1
-            broad = Label(root, text=(oct1, ".", oct2, ".", oct3, ".", broad), font=("TkDefaultFont", 12), width=20)
-            broad.place(relx=0.5, rely=0.9, anchor=E)
+            broad = Label(result_calc, text=(oct1, ".", oct2, ".", oct3, ".", broad), font=("TkDefaultFont", 12), width=20)
+            broad.grid(row=5, column=0)
 
-    except ValueError, TypeError:
+    except (ValueError, TypeError):
         error()
 
 def error():
     warning = messagebox.showerror("ERROR", "NOT A VALID IP ADDRESS/CIDR")
 
 #Creating
-title = Label(root, text="SUBNETTER", font=("TkDefaultFont", 25, "bold"))
-subtitle = Label(root, text="A Simple Tool For Calculating Subnets!", font=("TkDefaultFont", 15))
-ipdescription = Label(root, text="IP Address/CIDR", font=("TkDefaultFont", 12))
-ipdot1 = Label(root, text=".", font=("TkDefaultFont", 20))
-ipdot2 = Label(root, text=".", font=("TkDefaultFont", 20))
-ipdot3 = Label(root, text=".", font=("TkDefaultFont", 20))
-ipslash = Label(root, text="/", font=("TkDefaultFont", 20))
-network = Label(root, text="Network ID: ", font=("TkDefaultFont", 12))
-subnetmask = Label(root, text="Subnet Mask: ", font=("TkDefaultFont", 12))
-first = Label(root, text="First Host: ", font=("TkDefaultFont", 12))
-last = Label(root, text="Last Host: ", font=("TkDefaultFont", 12))
-n_hosts = Label(root, text="Total Hosts: ", font=("TkDefaultFont", 12))
-broadcast = Label(root, text="Broadcast IP: ", font=("TkDefaultFont", 12))
-developer = Label(root, font=("TkDefaultFont", 7), fg="grey", text="Developed with Python\n by Riccardo Milani")
+title_frame = Frame(root)
+title = Label(title_frame, text="SUBNETTER", font=("TkDefaultFont", 35, "bold"), pady=30)
+subtitle = Label(title_frame, text="A Simple Tool For Calculating Subnets!", font=("TkDefaultFont", 20))
+#
+input_frame = Frame(root)
+ipdescription = Label(input_frame, text="IP Address/CIDR", font=("TkDefaultFont", 12), pady= 50, padx= 50)
+ipdot1 = Label(input_frame, text=".", font=("TkDefaultFont", 20))
+ipdot2 = Label(input_frame, text=".", font=("TkDefaultFont", 20))
+ipdot3 = Label(input_frame, text=".", font=("TkDefaultFont", 20))
+ipslash = Label(input_frame, text="/", font=("TkDefaultFont", 20))
+#
+result_frame = Frame(root, pady=50)
+result_id = Frame(result_frame)
+network = Label(result_id, text="Network ID: ", font=("TkDefaultFont", 12))
+subnetmask = Label(result_id, text="Subnet Mask: ", font=("TkDefaultFont", 12))
+first = Label(result_id, text="First Host: ", font=("TkDefaultFont", 12))
+last = Label(result_id, text="Last Host: ", font=("TkDefaultFont", 12))
+n_hosts = Label(result_id, text="Total Hosts: ", font=("TkDefaultFont", 12))
+broadcast = Label(result_id, text="Broadcast IP: ", font=("TkDefaultFont", 12))
+result_calc = Frame(result_frame)
+
+developer = Label(root, font=("TkDefaultFont", 10), fg="grey", text="Developed with Python\n by Riccardo Milani")
 #Buttons
 calculatebutton = Button(root, text="Calculate!", font=("TkDefaultFont", 12), width=45, padx=5, command=calculate)
 #Inputs
-ip1 = Entry(root, width=5,font=("TkDefaultFont", 12))
-ip2 = Entry(root, width=5, font=("TkDefaultFont", 12))
-ip3 = Entry(root, width=5, font=("TkDefaultFont", 12))
-ip4 = Entry(root, width=5, font=("TkDefaultFont", 12))
-bits = Entry(root, width=5, font=("TkDefaultFont", 12))
+ip1 = Entry(input_frame, width=5,font=("TkDefaultFont", 12))
+ip2 = Entry(input_frame, width=5, font=("TkDefaultFont", 12))
+ip3 = Entry(input_frame, width=5, font=("TkDefaultFont", 12))
+ip4 = Entry(input_frame, width=5, font=("TkDefaultFont", 12))
+bits = Entry(input_frame, width=5, font=("TkDefaultFont", 12))
 
 #Showing
-title.place(relx=0.5, rely=0.01,anchor=N)
+title_frame.pack()
+title.pack()
+subtitle.pack()
 #
-subtitle.place(relx=0.5, rely=0.15, anchor=N)
+input_frame.pack()
+ipdescription.pack(side="left")
 #
-ipdescription.place(relx=0.1, rely=0.3, anchor=W)
-ip1.place(relx=0.5, rely=0.3, anchor=E)
-ipdot1.place(relx=0.52, rely=0.3, anchor=E)
-ip2.place(relx=0.58, rely=0.3, anchor=E)
-ipdot2.place(relx=0.6, rely=0.3, anchor=E)
-ip3.place(relx=0.66, rely=0.3, anchor=E)
-ipdot3.place(relx=0.68, rely=0.3, anchor=E)
-ip4.place(relx=0.74, rely=0.3, anchor=E)
-ipslash.place(relx=0.76, rely=0.3, anchor=E)
-bits.place(relx=0.82, rely=0.3, anchor=E)
-calculatebutton.place(relx=0.5, rely=0.4, anchor=CENTER)
+ip1.pack(side="left")
+ipdot1.pack(side="left")
+ip2.pack(side="left")
+ipdot2.pack(side="left")
+ip3.pack(side="left")
+ipdot3.pack(side="left")
+ip4.pack(side="left")
+ipslash.pack(side="left")
+bits.pack(side="left")
 #
-network.place(relx=0.1, rely=0.5, anchor=W)
+calculatebutton.pack()
 #
-subnetmask.place(relx=0.1, rely=0.6, anchor=W)
+result_frame.pack()
+result_id.grid(row=0, column=0)
+network.grid(row=0, column=0)
+subnetmask.grid(row=1, column=0)
+first.grid(row=2, column=0)
+last.grid(row=3, column=0)
+n_hosts.grid(row=4, column=0)
+broadcast.grid(row=5, column=0)
+result_calc.grid(row=0, column=1)
 #
-first.place(relx=0.1, rely=0.7, anchor=W)
-#
-last.place(relx=0.1, rely=0.8, anchor=W)
-#
-n_hosts.place(relx=0.5, rely=0.5, anchor=W)
-#
-broadcast.place(relx=0.1, rely=0.9, anchor=W)
-
-#developer.grid(row=9)
-
+developer.pack()
 
 root.mainloop()
