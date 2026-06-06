@@ -9,6 +9,6 @@ Thank you, have fun!
 
 Developed by Riccardo Milani
 
+<img width="799" height="632" alt="image" src="https://github.com/user-attachments/assets/a6ef5bdc-f1fe-41d8-9513-c0880af72677" />
 
-<img width="1008" height="799" alt="immagine" src="https://github.com/user-attachments/assets/3df8c0f6-2151-4810-bda7-85bf54c18465" />
 
