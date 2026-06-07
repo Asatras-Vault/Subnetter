@@ -9,6 +9,8 @@ Thank you, have fun!
 
 Windows: <a href="https://github.com/Asatras-Vault/Subnetter/releases/download/Release/Subnetter.exe">Subnetter.exe</a>
 
+Linux: <a href="https://github.com/Asatras-Vault/Subnetter/releases/download/Release/Subnetter">Subnetter</a>
+
 Developed by Riccardo Milani
 
 <img width="799" height="632" alt="image" src="https://github.com/user-attachments/assets/a6ef5bdc-f1fe-41d8-9513-c0880af72677" />
